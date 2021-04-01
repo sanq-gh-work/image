@@ -17,7 +17,10 @@ class ResetCommand extends AbstractCommand
     {
         $backupName = $this->argument(0)->value();
 
-        if (is_resource($backup = $image->getBackup($backupName))) {
+        if (
+            is_resource($backup = $image->getBackup($backupName)) ||
+            (is_object($backup) && $backup instanceof \GDImage)
+        ) {
 
             // destroy current resource
             imagedestroy($image->getCore());

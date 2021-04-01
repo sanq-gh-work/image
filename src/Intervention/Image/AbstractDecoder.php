@@ -140,6 +140,10 @@ abstract class AbstractDecoder
             return (get_resource_type($this->data) == 'gd');
         }
 
+        if (is_object($this->data) && $this->data instanceof \GDImage) {
+            return true;
+        }
+
         return false;
     }
 
@@ -220,6 +224,7 @@ abstract class AbstractDecoder
     {
         if ($this->data instanceof StreamInterface) return true;
         if (!is_resource($this->data)) return false;
+        if (!(is_object($this->data) && $this->data instanceof \GDImage)) return false;
         if (get_resource_type($this->data) !== 'stream') return false;
 
         return true;
